@@ -70,7 +70,8 @@ jobs:
           mkdir -p bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
           cp README.md bundle/README.md
           cp LICENSES.md bundle/LICENSES.md
-          cp scripts/setup.ps1 bundle/setup.ps1
+          mkdir -p bundle/scripts
+          cp scripts/setup.ps1 bundle/scripts/setup.ps1
 
       - name: Package bundle
         run: |
