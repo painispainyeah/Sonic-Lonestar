@@ -1,19 +1,15 @@
-# Downloaded upstream source checkouts
-/vendor/
+# Downloaded editor release
 /tools/
-/RetroED/
-
-# Game data and potentially copyrighted assets
-/workspace/game-data/
-/workspace/Data/
-/workspace/Game.dll
-*.rsdk
-
-# Local editor/build output
-/bin/
-/obj/
-/build/
+# Local toolkit bundle output
+/bundle/
 /dist/
+*.zip
 *.log
 .DS_Store
 Thumbs.db
+
+# User-supplied game data / binaries. Do not commit commercial game assets.
+workspace/game-data/
+workspace/Data/
+workspace/Game.dll
+*.rsdk

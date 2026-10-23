@@ -8,76 +8,47 @@ permissions:
 
 jobs:
   bundle:
-    name: Fetch upstream tools
+    name: Download RetroED and package setup guide
     runs-on: ubuntu-latest
     steps:
       - name: Check out Sonic Lonestar
         uses: actions/checkout@v4
 
-      - name: Install archive utilities
-        run: sudo apt-get update && sudo apt-get install -y git zip
-
-      - name: Fetch upstream source repositories
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p bundle/vendor bundle/tools/RetroED
-          git clone --depth 1 https://github.com/Virtua-Studio/RSDK-GDT.git bundle/vendor/RSDK-GDT
-          git clone --depth 1 https://github.com/RSDKModding/RSDKv5-Decompilation.git bundle/vendor/RSDKv5-Decompilation
-          git clone --depth 1 https://github.com/RSDKModding/Sonic-Mania-Decompilation.git bundle/vendor/Sonic-Mania-Decompilation
-
       - name: Download latest RetroED Windows release
         shell: bash
         run: |
           set -euo pipefail
+          mkdir -p bundle/tools/RetroED bundle/docs bundle/scripts bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
           python3 - <<'PY'
           import json
-          import os
-          import re
           import urllib.request
 
           api = "https://api.github.com/repos/RSDKModding/RetroED/releases/latest"
           req = urllib.request.Request(api, headers={"User-Agent": "Sonic-Lonestar-GitHub-Actions"})
-          try:
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  release = json.load(response)
-          except Exception as exc:
-              raise SystemExit(f"Could not fetch RetroED release metadata: {exc}")
+          with urllib.request.urlopen(req, timeout=30) as response:
+              release = json.load(response)
 
-          assets = release.get("assets", [])
-          candidates = [
-              a for a in assets
-              if (
-                  (re.search(r"(windows|win64|win-x64|win_x64|x64)", a.get("name", ""), re.I)
-                   and re.search(r"\.(zip|7z|exe)$", a.get("name", ""), re.I))
-                  or re.fullmatch(r"RetroED\.exe", a.get("name", ""), re.I)
-              )
-          ]
-          if not candidates:
-              print("No clearly named Windows asset found in the latest RetroED release.")
-              print("Release page:", release.get("html_url", ""))
-          else:
-              asset = candidates[0]
-              dest = os.path.join("bundle", "tools", "RetroED", asset["name"])
-              print("Downloading:", asset["name"])
-              req = urllib.request.Request(asset["browser_download_url"], headers={"User-Agent": "Sonic-Lonestar-GitHub-Actions"})
-              with urllib.request.urlopen(req, timeout=120) as response, open(dest, "wb") as output:
-                  output.write(response.read())
+          asset = next((a for a in release.get("assets", []) if a.get("name", "").lower() == "retroed.exe"), None)
+          if asset is None:
+              raise SystemExit(f"No RetroED.exe found in {release.get('html_url', 'latest release')}")
+          req = urllib.request.Request(asset["browser_download_url"], headers={"User-Agent": "Sonic-Lonestar-GitHub-Actions"})
+          with urllib.request.urlopen(req, timeout=120) as response, open("bundle/tools/RetroED/RetroED.exe", "wb") as output:
+              output.write(response.read())
+          print("Downloaded RetroED", release.get("tag_name"), "from", asset["browser_download_url"])
           PY
 
-      - name: Create workspace folders and copy instructions
+      - name: Copy setup documentation
         run: |
-          mkdir -p bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
           cp README.md bundle/README.md
           cp LICENSES.md bundle/LICENSES.md
-          mkdir -p bundle/scripts
           cp scripts/setup.ps1 bundle/scripts/setup.ps1
+          cp docs/EDITOR_SETUP.md bundle/docs/EDITOR_SETUP.md
+          cp UPSTREAMS.md bundle/UPSTREAMS.md
 
       - name: Package bundle
         run: |
           cd bundle
           zip -qr ../Sonic-Lonestar-toolkit.zip .
-          cd ..
 
       - name: Upload downloadable toolkit
         uses: actions/upload-artifact@v4

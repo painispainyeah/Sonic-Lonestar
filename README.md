@@ -1,49 +1,49 @@
 # Sonic Lonestar
 
-Workspace and tool bootstrap for a Sonic fan-game project using **RSDK v5 Ultimate** and **RSDK-GDT**.
+A personal workspace for a Sonic fan-game using **RSDK-GDT** on **RSDK v5 Ultimate**, with **RetroED v2** for scene and palette editing.
 
-## Get the tools
+## Get the source projects
 
-1. Open **Actions** in this repository.
-2. Select **Build tool bundle**.
+Clone this repository with its submodules:
+
+\`\`\`powershell
+git clone --recurse-submodules https://github.com/painispainyeah/Sonic-Lonestar.git
+cd Sonic-Lonestar
+.\scripts\setup.ps1
+\`\`\`
+
+If you already cloned without submodules, run:
+
+\`\`\`powershell
+git submodule update --init --recursive
+.\scripts\setup.ps1
+\`\`\`
+
+The source projects are tracked as Git submodules, so their original repositories, histories, and licenses remain clear:
+
+- \`vendor/RSDK-GDT\`: GDT template, scripts, stage data and object definitions.
+- \`vendor/RSDKv5-Decompilation\`: RSDK v5 Ultimate engine decompilation.
+- \`vendor/Sonic-Mania-Decompilation\`: optional reference for editor-enabled game logic/build configuration.
+
+The setup script downloads the official Windows RetroED release to \`tools/RetroED/RetroED.exe\`.
+
+## Download the editor toolkit artifact
+
+1. Open the **Actions** tab in this repository.
+2. Choose **Build tool bundle**.
 3. Click **Run workflow**.
-4. When it finishes, open the run and download the **Sonic-Lonestar-toolkit** artifact.
-5. Extract it. It contains upstream source checkouts, a Windows RetroED release when one is available, and empty workspace folders.
+4. When it finishes, download the \`Sonic-Lonestar-toolkit\` artifact from that run.
 
-The workflow fetches current upstream versions when run. The exact RetroED asset depends on what the upstream project publishes as its latest release.
+The artifact contains RetroED and the setup documentation. The upstream source checkouts are provided separately as submodules and are not duplicated into the artifact.
 
-## Local setup (Windows)
+## Open a GDT level and edit its palette
 
-Install Git for Windows, then run PowerShell from the folder where you want the project:
+See [docs/EDITOR_SETUP.md](docs/EDITOR_SETUP.md). In short, set RetroED's RSDK v5 base data folder to \`vendor/RSDK-GDT/Data\`, open a stage's \`Act1.bin\` in the v5 Scene Editor, and open that stage's \`StageConfig.bin\` in the Palette Editor.
 
-    git clone https://github.com/painispainyeah/Sonic-Lonestar.git
-    cd Sonic-Lonestar
-    Set-ExecutionPolicy -Scope Process Bypass
-    .\scripts\setup.ps1
+**You do not need a Game.dll just to edit a stage palette.** Game logic linking is a separate, optional step for richer game-specific object metadata and must use a compatible editor-enabled DLL. Do not substitute a random DLL and assume GDT-specific objects will be understood.
 
-The script clones RSDK-GDT, RSDK v5 decompilation, and Sonic Mania decompilation into vendor/, and attempts to download a Windows RetroED release into tools/RetroED/.
+## Important
 
-## Important: game logic and assets
-
-This repository does **not** generate a compatible Game.dll. RetroED features that depend on game logic need a compatible editor-enabled DLL for the exact RSDK/game build. A random DLL is not a substitute.
-
-No commercial game data, copyrighted game assets, or proprietary binaries are included. Supply files you are legally entitled to use and follow each upstream project's instructions and license.
-
-## Layout
-
-- .github/workflows/build-tool-bundle.yml: manually run a cloud setup and package the result as a downloadable artifact.
-- scripts/setup.ps1: local Windows setup equivalent.
-- workspace/levels/: place level work here.
-- workspace/palettes/: place palette work here.
-- workspace/game-data/: place legally obtained game data here; it is ignored by Git.
-- vendor/: downloaded upstream repositories; ignored by Git.
-- tools/: downloaded editor releases; ignored by Git.
-
-## Upstream projects
-
-- https://github.com/Virtua-Studio/RSDK-GDT
-- https://github.com/RSDKModding/RSDKv5-Decompilation
-- https://github.com/RSDKModding/Sonic-Mania-Decompilation
-- https://github.com/RSDKModding/RetroED
-
-Respect the licenses and attribution requirements of each upstream project.
+- This repository does not contain commercial game data, a Sonic Mania data pack, or a generated \`Game.dll\`.
+- RSDK-GDT's README says to use its source code rather than its outdated releases and to enable text scripts in the compatible engine setup.
+- Follow each upstream project's README and license before building or redistributing anything.

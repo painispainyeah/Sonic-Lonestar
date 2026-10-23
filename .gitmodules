@@ -1,0 +1,9 @@
+[submodule "vendor/RSDK-GDT"]
+	path = vendor/RSDK-GDT
+	url = https://github.com/Virtua-Studio/RSDK-GDT.git
+[submodule "vendor/RSDKv5-Decompilation"]
+	path = vendor/RSDKv5-Decompilation
+	url = https://github.com/RSDKModding/RSDKv5-Decompilation.git
+[submodule "vendor/Sonic-Mania-Decompilation"]
+	path = vendor/Sonic-Mania-Decompilation
+	url = https://github.com/RSDKModding/Sonic-Mania-Decompilation.git
