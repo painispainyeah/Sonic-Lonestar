@@ -1,0 +1,19 @@
+# Downloaded upstream source checkouts
+/vendor/
+/tools/
+/RetroED/
+
+# Game data and potentially copyrighted assets
+/workspace/game-data/
+/workspace/Data/
+/workspace/Game.dll
+*.rsdk
+
+# Local editor/build output
+/bin/
+/obj/
+/build/
+/dist/
+*.log
+.DS_Store
+Thumbs.db
