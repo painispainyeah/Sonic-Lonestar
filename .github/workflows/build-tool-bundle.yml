@@ -47,8 +47,9 @@ jobs:
           assets = release.get("assets", [])
           candidates = [
               a for a in assets
-              if re.search(r"(windows|win64|win-x64|win_x64|x64)", a.get("name", ""), re.I)
-              and re.search(r"\.(zip|7z|exe)$", a.get("name", ""), re.I)
+              if (re.search(r"(windows|win64|win-x64|win_x64|x64)", a.get("name", ""), re.I)
+                  and re.search(r"\.(zip|7z|exe)$", a.get("name", ""), re.I))
+              or re.fullmatch(r"RetroED\.exe", a.get("name", ""), re.I)
           ]
           if not candidates:
               print("No clearly named Windows asset found in the latest RetroED release.")
