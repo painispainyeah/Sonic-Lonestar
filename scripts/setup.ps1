@@ -64,7 +64,118 @@ try {
 
 $Assets = @($Release.assets)
 $Asset = $Assets | Where-Object {
-    (($_.name -match '(?i)(windows|win64|win-x64|win_x64|x64)' -and $_.name -match '(?i)\.(zip|7z|exe)} | Select-Object -First 1
+    (($_.name -match '(?i)(windows|win64|win-x64|win_x64|x64)' -and $_.name -match '(?i)\.(zip|7z|exe)
+
+if (-not $Asset) {
+    Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
+    Write-Host "Choose the Windows asset manually: $($Release.html_url)"
+} else {
+    $Destination = Join-Path (Join-Path $Tools "RetroED") $Asset.name
+    Write-Host "Downloading $($Asset.name)"
+    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination
+    Write-Host "Saved to $Destination"
+}
+
+Write-Step "Setup complete"
+Write-Host "Project root: $Root"
+Write-Host "Upstream source: $(Join-Path $Root 'vendor')"
+Write-Host "RetroED download: $(Join-Path $Root 'tools\RetroED')"
+Write-Host "Workspace: $Workspace"
+Write-Host "Note: this does not create Game.dll or provide commercial game data."
+) -or $_.name -match '(?i)^RetroED\.exe} | Select-Object -First 1
+
+if (-not $Asset) {
+    Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
+    Write-Host "Choose the Windows asset manually: $($Release.html_url)"
+} else {
+    $Destination = Join-Path (Join-Path $Tools "RetroED") $Asset.name
+    Write-Host "Downloading $($Asset.name)"
+    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination
+    Write-Host "Saved to $Destination"
+}
+
+Write-Step "Setup complete"
+Write-Host "Project root: $Root"
+Write-Host "Upstream source: $(Join-Path $Root 'vendor')"
+Write-Host "RetroED download: $(Join-Path $Root 'tools\RetroED')"
+Write-Host "Workspace: $Workspace"
+Write-Host "Note: this does not create Game.dll or provide commercial game data."
+)
+} | Select-Object -First 1
+
+if (-not $Asset) {
+    Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
+    Write-Host "Choose the Windows asset manually: $($Release.html_url)"
+} else {
+    $Destination = Join-Path (Join-Path $Tools "RetroED") $Asset.name
+    Write-Host "Downloading $($Asset.name)"
+    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination
+    Write-Host "Saved to $Destination"
+}
+
+Write-Step "Setup complete"
+Write-Host "Project root: $Root"
+Write-Host "Upstream source: $(Join-Path $Root 'vendor')"
+Write-Host "RetroED download: $(Join-Path $Root 'tools\RetroED')"
+Write-Host "Workspace: $Workspace"
+Write-Host "Note: this does not create Game.dll or provide commercial game data."
+) -or $_.name -match '(?i)^RetroED\.exe
+
+if (-not $Asset) {
+    Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
+    Write-Host "Choose the Windows asset manually: $($Release.html_url)"
+} else {
+    $Destination = Join-Path (Join-Path $Tools "RetroED") $Asset.name
+    Write-Host "Downloading $($Asset.name)"
+    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination
+    Write-Host "Saved to $Destination"
+}
+
+Write-Step "Setup complete"
+Write-Host "Project root: $Root"
+Write-Host "Upstream source: $(Join-Path $Root 'vendor')"
+Write-Host "RetroED download: $(Join-Path $Root 'tools\RetroED')"
+Write-Host "Workspace: $Workspace"
+Write-Host "Note: this does not create Game.dll or provide commercial game data."
+) -or $_.name -match '(?i)^RetroED\.exe} | Select-Object -First 1
+
+if (-not $Asset) {
+    Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
+    Write-Host "Choose the Windows asset manually: $($Release.html_url)"
+} else {
+    $Destination = Join-Path (Join-Path $Tools "RetroED") $Asset.name
+    Write-Host "Downloading $($Asset.name)"
+    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination
+    Write-Host "Saved to $Destination"
+}
+
+Write-Step "Setup complete"
+Write-Host "Project root: $Root"
+Write-Host "Upstream source: $(Join-Path $Root 'vendor')"
+Write-Host "RetroED download: $(Join-Path $Root 'tools\RetroED')"
+Write-Host "Workspace: $Workspace"
+Write-Host "Note: this does not create Game.dll or provide commercial game data."
+)
+} | Select-Object -First 1
+
+if (-not $Asset) {
+    Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
+    Write-Host "Choose the Windows asset manually: $($Release.html_url)"
+} else {
+    $Destination = Join-Path (Join-Path $Tools "RetroED") $Asset.name
+    Write-Host "Downloading $($Asset.name)"
+    Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination
+    Write-Host "Saved to $Destination"
+}
+
+Write-Step "Setup complete"
+Write-Host "Project root: $Root"
+Write-Host "Upstream source: $(Join-Path $Root 'vendor')"
+Write-Host "RetroED download: $(Join-Path $Root 'tools\RetroED')"
+Write-Host "Workspace: $Workspace"
+Write-Host "Note: this does not create Game.dll or provide commercial game data."
+)
+} | Select-Object -First 1
 
 if (-not $Asset) {
     Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
