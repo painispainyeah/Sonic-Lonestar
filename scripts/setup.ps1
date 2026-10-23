@@ -64,7 +64,8 @@ try {
 
 $Assets = @($Release.assets)
 $Asset = $Assets | Where-Object {
-    (($_.name -match '(?i)(windows|win64|win-x64|win_x64|x64)' -and $_.name -match '(?i)\.(zip|7z|exe)
+    (($_.name -match '(?i)(windows|win64|win-x64|win_x64|x64)' -and $_.name -match '(?i)\.(zip|7z|exe)$') -or $_.name -match '(?i)^RetroED\.exe$')
+} | Select-Object -First 1
 
 if (-not $Asset) {
     Write-Warning "No obvious Windows archive/installer was found in the latest RetroED release."
