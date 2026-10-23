@@ -12,7 +12,7 @@ function Write-Step([string]$Message) {
 
 function Require-Command([string]$Name) {
     if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
-        throw "Required command '$Name' was not found. Install Git for Windows and ensure it is on PATH."
+        throw "Required command '$Name' was not found. Install Git for Windows and ensure git.exe is on PATH."
     }
 }
 
@@ -26,9 +26,9 @@ $RootGit = Join-Path $Root ".git"
 
 New-Item -ItemType Directory -Force -Path $Vendor, $Tools, (Join-Path $Tools "RetroED"), (Join-Path $Workspace "levels"), (Join-Path $Workspace "palettes"), (Join-Path $Workspace "game-data") | Out-Null
 
-# Prefer the pinned submodules when this is a Git checkout. ZIP downloads do not
-# contain submodule contents, so fall back to ordinary shallow clones in that case.
-$HasGitMetadata = (Test-Path $RootGit) -or (Test-Path (Join-Path $Root ".git"))
+# Prefer pinned submodules in a Git checkout. ZIP downloads do not contain
+# submodule contents, so fall back to ordinary shallow clones in that case.
+$HasGitMetadata = Test-Path $RootGit
 if ($HasGitMetadata -and (Test-Path $GitModules)) {
     Write-Step "Initialising source submodules"
     git -C $Root submodule update --init --recursive
@@ -78,7 +78,7 @@ if (-not $Asset) {
 $RetroEDDir = Join-Path $Tools "RetroED"
 $Destination = Join-Path $RetroEDDir $Asset.name
 Write-Host "Downloading $($Asset.name) from RetroED $($Release.tag_name)"
-Invoke-WebRequest -Uri $Asset.browser_download_url -OutFile $Destination -Headers @{ "User-Agent" = "Sonic-Lonestar-setup" }
+Invoke-WebRequest -UseBasicParsing -Uri $Asset.browser_download_url -OutFile $Destination -Headers @{ "User-Agent" = "Sonic-Lonestar-setup" }
 
 Write-Step "Setup complete"
 Write-Host "GDT data folder: $(Join-Path $Vendor 'RSDK-GDT\Data')"

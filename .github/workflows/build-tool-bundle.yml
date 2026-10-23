@@ -14,11 +14,18 @@ jobs:
       - name: Check out Sonic Lonestar
         uses: actions/checkout@v4
 
+      - name: Prepare bundle folders
+        run: |
+          mkdir -p bundle/tools/RetroED bundle/docs bundle/scripts bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
+
+      - name: Include RetroED source for license compliance
+        run: |
+          git clone --depth 1 https://github.com/RSDKModding/RetroED.git bundle/vendor/RetroED-source
+
       - name: Download latest RetroED Windows release
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p bundle/tools/RetroED bundle/docs bundle/scripts bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
           python3 - <<'PY'
           import json
           import urllib.request

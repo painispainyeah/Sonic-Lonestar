@@ -34,7 +34,7 @@ The setup script downloads the official Windows RetroED release to \`tools/Retro
 3. Click **Run workflow**.
 4. When it finishes, download the \`Sonic-Lonestar-toolkit\` artifact from that run.
 
-The artifact contains RetroED and the setup documentation. The upstream source checkouts are provided separately as submodules and are not duplicated into the artifact.
+The artifact contains RetroED, its upstream source checkout, and the setup documentation. The GDT and engine source checkouts are provided as submodules rather than duplicated into the artifact.
 
 ## Open a GDT level and edit its palette
 
