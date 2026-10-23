@@ -16,11 +16,12 @@ jobs:
 
       - name: Prepare bundle folders
         run: |
-          mkdir -p bundle/tools/RetroED bundle/docs bundle/scripts bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
+          mkdir -p bundle/vendor bundle/tools/RetroED bundle/docs bundle/scripts bundle/workspace/levels bundle/workspace/palettes bundle/workspace/game-data
 
       - name: Include RetroED source for license compliance
         run: |
           git clone --depth 1 https://github.com/RSDKModding/RetroED.git bundle/vendor/RetroED-source
+          rm -rf bundle/vendor/RetroED-source/.git
 
       - name: Download latest RetroED Windows release
         shell: bash
